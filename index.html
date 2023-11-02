@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Sender Chats</title>
+    <script src="./script.js"></script>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="shortcut icon" type="image/png" href="./img/favicon.ico" />
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <header>
+      <div class="project">
+        <div class="image">
+          <img id="headProjectImg" src="https://console.smartsender.com/img/projects/default.png" alt="projectImage" />
+        </div>
+        <div id="headProjectName" class="name">ProjectName</div>
+      </div>
+    </header>
+    <main>
+      <section class="chat-list">
+        <div class="contact-filter">
+          <div class="chat-search">
+            <div class="app-form">
+              <form>
+                <label>
+                  <input type="text" name="term" placeholder="Пошук ..." />
+                  <span>
+                    <svg class="icon icon-search">
+                      <use xlink:href="./img/sprite.svg#icon-search"></use>
+                    </svg>
+                  </span>
+                </label>
+              </form>
+            </div>
+          </div>
+          <div class="chat-btn">
+            <div class="chat-btn-top">
+              <button type="button" class="btn-small btn-chat-state active">Відкриті</button>
+              <button type="button" class="btn-small bth-chat-state">Закриті</button>
+            </div>
+            <div class="chat-btn-bottom">
+              <button type="button" class="btn-chat-type active">Усі</button>
+              <button type="button" class="btn-chat-type">Непрочитані</button>
+              <button type="button" class="btn-chat-type">Мої</button>
+            </div>
+          </div>
+        </div>
+        <div class="chat-list-project">
+          <ul id="project-chat-list"></ul>
+        </div>
+      </section>
+      <section class="chat-message hidden">
+        <div class="chat-top">
+          <div class="container">
+            <div class="chat-top-left">
+              <span class="chat-icon back" onclick="history.back()">
+                <svg class="icon icon-arrow-l">
+                  <use xlink:href="./img/sprite.svg#icon-arrow-l"></use>
+                </svg>
+              </span>
+            </div>
+            <div class="chat-top-name">
+              <div class="chat-messengers">
+                <span class="chat-icon active">
+                  <svg class="icon icon-telegram">
+                    <use xlink:href="./img/sprite.svg#icon-telegram"></use>
+                  </svg>
+                </span>
+              </div>
+              <div class="chat-name">
+                <p id="contactName">Контакт</p>
+                <button>
+                  Закрити чат
+                  <svg class="icon icon-chat-multiply">
+                    <use xlink:href="./img/sprite.svg#icon-chat-multiply"></use>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="chat-top-right">
+              <span class="chat-info" onclick="userDetail()">
+                <svg class="icon icon-chat-arrow-r">
+                  <use xlink:href="./img/sprite.svg#icon-chat-arrow-r"></use>
+                </svg>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="chat-main">
+          <div class="chat-wrap">
+            <div class="chat-content"></div>
+          </div>
+        </div>
+        <div class="chat-bottom">
+          <div class="container">
+            <div class="chat-bottom-attach">
+              <svg class="icon">
+                <use xlink:href="./img/sprite.svg#icon-clip"></use>
+              </svg>
+            </div>
+            <div class="container base-message-container">
+              <div class="chat-bottom-input">
+                <form>
+                  <textarea name="content" placeholder="Введіть Ваше повідомлення" class="textarea-send" rows="4" oninput="writeMessage(this.value)"></textarea>
+                </form>
+              </div>
+              <div class="chat-bottom-send">
+                <svg class="icon">
+                  <use xlink:href="./img/sprite.svg#icon-chat-send"></use>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="chat-attach"></div>
+      </section>
+      <section class="user-detail hidden">
+        <div class="detail-top">
+          <svg class="icon icon-arrow-l" onclick="history.back()">
+            <use xlink:href="./img/sprite.svg#icon-arrow-l"></use>
+          </svg>
+          <span class="detail-top-name">Користувач</span>
+        </div>
+        <div class="detail-main">
+          <div class="detail-description">
+            <img src="" alt="" class="detail-main-photo" />
+            <h2 class="detail-main-name"></h2>
+            <p class="detail-main-userId">
+              <svg class="icon icon-card">
+                <use xlink:href="./img/sprite.svg#icon-card"></use>
+              </svg>
+            </p>
+          </div>
+          <div class="detail-attributes">
+            <div class="detail-attributes-info">
+              <div class="app-form">
+                <form onsubmit="saveBaseInfo(this)">
+                  <label class="label-text">
+                    <input type="text" name="firstName" placeholder=" " class="input-text" />
+                    <span class="span-input-text">Ім'я</span>
+                  </label>
+                  <label class="label-text">
+                    <input type="text" name="lastName" placeholder=" " class="input-text" />
+                    <span class="span-input-text">Прізвище</span>
+                  </label>
+                  <label class="label-text">
+                    <input type="email" name="email" placeholder=" " class="input-text" />
+                    <span class="span-input-text">Email</span>
+                  </label>
+                  <label class="label-text">
+                    <input type="tel" name="phone" placeholder=" " class="input-text" />
+                    <span class="span-input-text">Телефон</span>
+                  </label>
+                  <button type="submit" class="btn btn-save">Зберегти відомості</button>
+                </form>
+              </div>
+              <!-- <button class="btn-trigger">Відписати від каналів</button>
+              <button class="btn-trigger">Заблокувати</button> -->
+            </div>
+            <div class="detail-attributes-full" id="contactTagsList">
+              <h3>Теги</h3>
+              <button class="btn btn-resolver">
+                <svg class="icon icon-add-pluss">
+                  <use xlink:href="./img/sprite.svg#icon-add-pluss"></use>
+                </svg>
+                Додати тег
+              </button>
+            </div>
+            <div class="detail-attributes-full" id="contactFunnelsList">
+              <h3>Воронки</h3>
+              <button class="btn btn-resolver">
+                <svg class="icon icon-add-pluss">
+                  <use xlink:href="./img/sprite.svg#icon-add-pluss"></use>
+                </svg>
+                Підписати на воронку
+              </button>
+            </div>
+            <div class="detail-attributes-full" id="contactNotesList">
+              <h3>Замітки</h3>
+              <button class="btn btn-resolver">
+                <svg class="icon icon-add-pluss">
+                  <use xlink:href="./img/sprite.svg#icon-add-pluss"></use>
+                </svg>
+                Додати замітку
+              </button>
+            </div>
+            <div class="detail-attributes-full">
+              <h3>Змінні</h3>
+              <button class="btn btn-resolver" onclick="showVariables(this)">
+                <svg class="icon icon-arrow-down">
+                  <use xlink:href="./img/sprite.svg#icon-arrow-down"></use>
+                </svg>
+                Показати змінні
+              </button>
+              <div class="detail attributes-inputs hidden" id="contactVariablesList"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <script>
+        loadChats();
+        let vh = window.innerHeight * 0.01;
+        document.body.style.setProperty("--vh", `${vh}px`);
+        window.addEventListener("resize", function () {
+          let vh = window.innerHeight * 0.01;
+          document.body.style.setProperty("--vh", `${vh}px`);
+        });
+      </script>
+    </footer>
+  </body>
+</html>
